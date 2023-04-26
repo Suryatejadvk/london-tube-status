@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
 
 function App() {
+  const [disruptions, setDisruptions] = useState([]);
+
+  useEffect(() => {
+    fetch("https://api.tfl.gov.uk/Line/Mode/tube/Disruption")
+      .then((response) => response.json())
+      .then((data) => setDisruptions(data))
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>TfL Tube Disruptions</h1>
+      {disruptions.length > 0 ? (
+        <ul>
+          {disruptions.map(
+            (disruption, index) =>
+              
+              <li key={index}><h2>{disruption.closureText}:</h2>{disruption.description}</li>
+          )}
+        </ul>
+      ) : (
+        <p>No disruptions at the moment.</p>
+      )}
     </div>
   );
 }
