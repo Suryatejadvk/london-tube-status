@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# MySQL, PHPMyAdmin and Node.js (ready for Express development)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This will install Mysql and phpmyadmin (including all dependencies to run Phpmyadmin) AND node.js
 
-## Available Scripts
+This receipe is for development - Node.js is run in using supervisor: changes to any file in the app will trigger a rebuild automatically.
 
-In the project directory, you can run:
+For security, this receipe uses a .env file for credentials.  A sample is provided in the env-sample file. If using these files for a fresh project, copy the env-sample file to a file called .env.  Do NOT commit the changed .env file into your new project for security reasons (in the node package its included in .gitignore so you can't anyway)
 
-### `npm start`
+In node.js, we use the MySQl2 packages (to avoid problems with MySQL8) and the dotenv package to read the environment variables.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Local files are mounted into the container using the 'volumes' directive in the docker-compose.yml for ease of development.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Super-quickstart your new project:
 
-### `npm test`
+* Make sure that you don't have any other containers running usind docker ps
+* run ```docker-compose up --build```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Visit phphmyadmin at:
 
-### `npm run build`
+http://localhost:8081/
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Visit your express app at:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+http://localhost:3000
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+For reference, see the video at: https://roehampton.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=6f290a6b-ba94-4729-9632-adcf00ac336e
 
-### `npm run eject`
+NB if you are running this on your own computer rather than the azure labs that has been set up for you, you will need to install the following:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* node.js  (windows: https://nodejs.org/en/download/)
+* docker desktop (for windows, this will also prompt you to install linux subsystem for windows https://docs.docker.com/desktop/windows/install/ )
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Whats provided in these scaffolding files?
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  * A docker setup which will provide you with node.js, mysql and phpmyadmin, including the configuration needed so that both node.js AND phpmyadmin can 'see' and connect to your mysql database.  If you don't use docker you'll have to set up and connect each of these components separately.
+  * A basic starting file structure for a node.js app.
+  * A package.json file that will pull in the node.js libraries required and start your app as needed.
+  * A db.js file which provides all the code needed to connect to the mysql database, using the credentials in the .env file, and which provides a query() function that can send queries to the database and receive a result.  In order to use this (ie. interact with the database, you simply need to include this file in any file you create that needs this database interaction) with the following code:
 
-## Learn More
+```const db = require('./services/db');
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+____
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Useful commands:
 
-### Code Splitting
+Get a shell in any of the containers
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+docker exec -it <container name> bash -l
+```
 
-### Analyzing the Bundle Size
+Once in the database container, you can get a MySQL CLI in the usual way
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+mysql -uroot -p<password> 
+```

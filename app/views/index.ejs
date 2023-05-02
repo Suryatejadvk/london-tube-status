@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.google-analytics.com; img-src 'self' https://www.google-analytics.com https://ssl.gstatic.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://www.google-analytics.com;" />
+
+    <title>london Metro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/card.css">
+</head>
+
+<body>
+
+
+
+    <%- include('navbar') %> <!-- importing navbar codes from navbar.ejs file  -->
+
+        <div class="container">
+            <h1 class="my-5 text-center display-3">London Tube Lines</h1>
+
+        </div>
+
+        <!-- Train List cards  -->
+        <div class="container mt-5 mb-3">
+            <div class="row">
+
+                <% lines.forEach((line , index)=> { %>
+                    <div class="col-md-4 py-2 ">
+                        <a href="/status?line=<%= line.lineId %>" class="text-decoration-none card-anchor">
+                            <div <% /* eslint-disable css-propertyvalueexpected */ %>
+                                class="card p-3 mb-2"
+                                style="background-color: <%= getRandomColor() %>">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <div class="icon"> <img src="/images/metro.png" width="50px" alt=""></i>
+                                            </div>
+                                            <div class="ms-2 c-details">
+                                                <h6 class="mb-0 capitalize-first-letter" style="color:#f8f9fa ; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+                                                    <%= line.modeName %>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                        <% if (line.lineStatuses[0].statusSeverity == 10) { %>
+                                            <div> <span class="badge  text-bg-success">
+                                                <%= line.lineStatuses[0].statusSeverityDescription %>
+                                            </span> </div>
+                                            <% } else { %>
+                                                <div> <span class="badge text-bg-warning">
+                                                    <%= line.lineStatuses[0].statusSeverityDescription %>
+                                                </span> </div>
+                                                <% } %>
+                                    </div>
+                                    <div class="mt-5">
+                                        <h3 class="heading" style="color:#f8f9fa ; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+                                            <%= line.name %>
+                                        </h3>
+
+                                    </div>
+                            </div>
+                        </a>
+                    </div>
+                    <% }); %>
+            </div>
+        </div>
+
+
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.google-analytics.com; img-src 'self' https://www.google-analytics.com https://ssl.gstatic.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://www.google-analytics.com;" />
+
+    <title>london Metro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/status.css" />
+</head>
+
+<body>
+    <%- include('navbar') %>
+        <!-- importing navbar codes from navbar.ejs file  -->
+
+        <article class="product">
+            <h2 class="product-title">
+                <%= disruption[0].name %>
+            </h2>
+            <!-- flex  -->
+            <div class="row flex-wrap px-2">
+                <div class="col-4">
+                    <img src="/images/metro.png" alt="Converse" height="250" width="250" class="product-img" />
+                </div>
+                <% if (disruption[0].statusSeverityDescription !=="Good Service" ) { %>
+
+                <div class="col-4">
+                    <div class="product-info">
+                        <div class="product-price">
+                            <p class="price"><strong>ALERT</strong></p>
+                        </div>
+
+                            <p class="sale"><%= disruption[0].statusSeverityDescription %></p>
+
+
+                            <p class="product-description">
+                                <%= disruption[0].reason %>
+                            </p>
+                    </div>
+                </div>
+                <div class="col-4">
+
+                    <div class="product-details">
+                        <h3 class="details-title">Additional Info</h3>
+                        <ul class="details-list">
+                            <p>
+                                <%= disruption[0].additionalInfo %>
+                            </p>
+                        </ul>
+                    </div>
+                </div>
+
+                <% } else { %>
+                    <p class="sale2">
+                       Everything working perfectly fine
+                    </p>
+
+                    <% } %>
+
+
+
+            </div>
+
+            <!-- flex  -->
+            <button id="btn-home" onclick="history.back()" class="add-cart">
+                Back
+            </button>
+        </article>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
+        <script src="/js/script.js"></script>
+</body>
+
+</html>
